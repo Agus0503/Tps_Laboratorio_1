@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : Tp1.c
- Author      : 
+ Author      : Diego Agustin Ostua Larramendia
  Version     :
  Copyright   : Your copyright notice
  Description : Hello World in C, Ansi-style
