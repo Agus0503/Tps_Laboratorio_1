@@ -26,6 +26,8 @@ int main(void) {
 
 	setbuf(stdout,NULL);
 
+	printf("Hola mundo PRUEBA 1");
+
 	return EXIT_SUCCESS;
 }
 
