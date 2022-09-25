@@ -57,10 +57,8 @@ int subMenuJugadores(int* pCantidadArqueros,int* pCantidadDefensores,int* pCanti
 
 	int retorno;
 	int posicion;
-	//char respuesta;
 
 	retorno = -1;
-	//respuesta = 's';
 
 	printf("\nELIJA POSICION \n");
 	printf("1- ARQUERO \n");
@@ -73,7 +71,6 @@ int subMenuJugadores(int* pCantidadArqueros,int* pCantidadDefensores,int* pCanti
 
 	if(pCantidadArqueros != NULL && pCantidadDefensores != NULL && pCantidadMediocampistas != NULL && pCantidadDelanteros != NULL && banderaHablitacionA != NULL){
 
-			//while(respuesta != 'n'){
 			switch(posicion){
 				case 1:
 					if(*pCantidadArqueros < 2){
@@ -123,17 +120,8 @@ int subMenuJugadores(int* pCantidadArqueros,int* pCantidadDefensores,int* pCanti
 				break;
 				}
 
-			/*
-				printf("Desea continuar ingresando jugadores en esta posicion?\n");
-				printf("--------------(S/N)--------------");
-				printf("\ns = si  n = no ----------> ");
-				fflush(stdin);
-				scanf("%c", &respuesta);
-				respuesta = tolower(respuesta);
-				if(respuesta == 'n'){
-					break;
-				}
-			*/}
+
+			}
 
 	return retorno;
 }

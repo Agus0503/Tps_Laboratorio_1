@@ -162,7 +162,6 @@ int main(void) {
 						printf("Promedio de jugadores de Conmebol %.2f \n",promedioConmebol);
 						printf("Promedio de jugadores de Uefa %.2f \n",promedioUefa);
 						printf("Promedio de jugadores de Ofc %.2f \n",promedioOfc);
-						//printf("El costo de mantenimiento es de: %.2f", costoMantenimiento);
 						printf("El costo de mantenimiento era de %.2f ",costoMantenimiento);
 						printf("\nrecibio un aumento de $ %.2f",costoMantenimientoAumento);
 						printf("su nuevo valor es de: $ %.2f",costoMantenimientoConAumento);

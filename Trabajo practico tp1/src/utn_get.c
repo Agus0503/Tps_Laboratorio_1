@@ -64,30 +64,5 @@ int obtenerNumeroFlotante(float* resultado, char* mensaje, char* mensajeError, f
 	return retorno;
 }
 
-//OBTENER CARACTER ============================================================================
 
-int getCaracter(char* resultado, char* mensaje, char* mensajeError, char minimo, char maximo, int reintentos){
-
-	char bufferChar;
-	int retorno = -1;
-
-	if(resultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0 ){
-
-		do{
-			printf("%s", mensaje);
-			scanf("%c", &bufferChar);
-
-			if(bufferChar >= minimo && bufferChar <= maximo){
-						*resultado = bufferChar;
-						retorno = 0;
-						break;
-					}else{
-						printf("%s", mensajeError);
-						reintentos --;
-				}
-		}while(reintentos>=0);
-	}
-
-	return retorno;
-}
 
