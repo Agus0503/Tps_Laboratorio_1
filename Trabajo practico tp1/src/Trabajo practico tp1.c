@@ -23,6 +23,8 @@
 #include "obtener.h"
 #include "utn_get.h"
 
+int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantidadConcaf,int auxCantidadOfc,int auxCantidadConmebol,int auxCantidadAfc, int auxCantidadTotal);
+
 int main(void) {
 
 	setbuf(stdout,NULL);
@@ -121,7 +123,7 @@ int main(void) {
 					if(cantidadArqueros > 2 || cantidadDefensores > 8 || cantidadMediocampistas > 8 || cantidadDelanteros > 4){
 						break;
 					}else{
-						subMenuConfederaciones(&cantidadCaf, &cantidadUefa, &cantidadConcaf, &cantidadOfc, &cantidadConmebol, &cantidadCaf, &cantidadTotal);
+						subMenuConfederaciones(cantidadCaf, cantidadUefa, cantidadConcaf, cantidadOfc, cantidadConmebol, cantidadCaf, cantidadTotal);
 						if(cantidadArqueros || cantidadDefensores || cantidadMediocampistas || cantidadDelanteros || banderaOpcionTresB > 0){
 							banderaOpcionTresB = 1;
 						}
@@ -131,7 +133,7 @@ int main(void) {
 				case 3:
 					if(banderaOpcionTresA == 1 && banderaOpcionTresB == 1){
 						costoMantenimiento = auxCostoHospedaje + auxCostoComida + auxCostoTransporte;
-						promedioAfc = (float)calcularPromedioAfc(&cantidadAfc);
+						promedioAfc = calcularPromedioAfc(&cantidadAfc);
 						promedioCaf= (float)calcularPromedioCaf(&cantidadCaf);
 						promedioOfc = (float)calcularPromedioOfc(&cantidadOfc);
 						promedioConcacaf= (float)calcularPromedioConcaf(&cantidadConcaf);
@@ -146,7 +148,7 @@ int main(void) {
 						puts("--------------------------------------");
 						banderaOpcionCuatroEntrada = 1;
 					}else{
-						puts("------------------------------------------------");
+						puts("\n------------------------------------------------");
 						printf("ALERTA! Primero debe ingresar los costos de mantenimiento y al menos 1 jugador\n");
 						puts("------------------------------------------------");
 
@@ -162,9 +164,13 @@ int main(void) {
 						printf("Promedio de jugadores de Conmebol %.2f \n",promedioConmebol);
 						printf("Promedio de jugadores de Uefa %.2f \n",promedioUefa);
 						printf("Promedio de jugadores de Ofc %.2f \n",promedioOfc);
-						printf("El costo de mantenimiento era de %.2f ",costoMantenimiento);
-						printf("\nrecibio un aumento de $ %.2f",costoMantenimientoAumento);
-						printf("su nuevo valor es de: $ %.2f",costoMantenimientoConAumento);
+						if(cantidadUefa > cantidadAfc && cantidadUefa > cantidadCaf && cantidadUefa > cantidadConcaf && cantidadUefa > cantidadConmebol && cantidadUefa > cantidadOfc){
+							printf("El costo de mantenimiento era de %.2f ",costoMantenimiento);
+							printf("\nRecibio un aumento de $ %.2f",costoMantenimientoAumento);
+							printf("su nuevo valor es de: $ %.2f",costoMantenimientoConAumento);
+						}else{
+							printf("El costo de mantenimiento es de %.2f ",costoMantenimiento);
+						}
 						puts("\n--------------------------------------");
 					}else{
 					printf("ERROR, primero debe realizar los calculos para mostrar resultados o faltan datos por ingresar");
@@ -185,4 +191,81 @@ int main(void) {
 		}while(opcion != 5);
 
 	return EXIT_SUCCESS;
+}
+
+
+
+// ===================== SUBMENU CONFEDERACIONES =====================
+/// @brief
+/// @param auxCantidadCaf
+/// @param auxCantidadUefa
+/// @param auxCantidadConcaf
+/// @param auxCantidadOfc
+/// @param auxCantidadConmebol
+/// @param auxCantidadAfc
+/// @param auxCantidadTotal
+/// @return Devuele valor 1 si se cumplen las condiciones
+int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantidadConcaf,int auxCantidadOfc,int auxCantidadConmebol,int auxCantidadAfc, int auxCantidadTotal){
+
+	int retorno;
+	int opcionLiga;
+
+	retorno = -1;
+
+	printf("\n--------------------------------");
+	printf("\n-----SELECCIONE LIGA----- \n");
+	printf("--------------------------------");
+	printf("\n 1- AFC");
+	printf("\n 2- CAF");
+	printf("\n 3- CONCAF");
+	printf("\n 4- CONMEBOL");
+	printf("\n 5- UEFA");
+	printf("\n 6- OFC");
+	printf("\nSeleccione Liga: ");
+	scanf("%d", &opcionLiga);
+
+			switch(opcionLiga){
+
+				case 1:
+					auxCantidadAfc++;
+					calcularPromedioAfc(&auxCantidadAfc);
+					printf("%d", auxCantidadAfc);
+					retorno = 1;
+				break;
+
+				case 2:
+					auxCantidadCaf++;
+					calcularPromedioCaf(&auxCantidadCaf);
+					retorno = 1;
+				break;
+
+				case 3:
+					auxCantidadConcaf++;
+					calcularPromedioCaf(&auxCantidadConcaf);
+					retorno = 1;
+				break;
+
+				case 4:
+					auxCantidadConmebol++;
+					calcularPromedioCaf(&auxCantidadConmebol);
+					retorno = 1;
+				break;
+
+				case 5:
+					auxCantidadUefa++;
+					calcularPromedioCaf(&auxCantidadUefa);
+					retorno = 1;
+				break;
+
+				case 6:
+					auxCantidadOfc++;
+					calcularPromedioCaf(&auxCantidadOfc);
+					retorno = 1;
+				break;
+
+				case 7:
+				break;
+			}
+
+		return retorno;
 }

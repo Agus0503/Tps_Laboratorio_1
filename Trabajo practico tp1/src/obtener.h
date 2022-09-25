@@ -8,7 +8,6 @@
 #ifndef OBTENER_H_
 #define OBTENER_H_
 
-#define TAMEQUIPO 22
 #define TAMCONFEDERACIONES 6
 
 /// @brief
@@ -24,17 +23,6 @@ void validarCamiseta(int minimo, int maximo);
 /// @param banderaHablitacionA
 /// @return Devuele valor 1 si se cumplen las condiciones
 int subMenuJugadores(int* pCantidadArqueros,int* pCantidadDefensores,int* pCantidadMediocampistas,int* pCantidadDelanteros, int* banderaHablitacionA);
-
-/// @brief
-/// @param auxCantidadCaf
-/// @param auxCantidadUefa
-/// @param auxCantidadConcaf
-/// @param auxCantidadOfc
-/// @param auxCantidadConmebol
-/// @param auxCantidadAfc
-/// @param auxCantidadTotal
-/// @return Devuele valor 1 si se cumplen las condiciones
-int subMenuConfederaciones(int* auxCantidadCaf,int* auxCantidadUefa,int* auxCantidadConcaf,int* auxCantidadOfc,int* auxCantidadConmebol,int* auxCantidadAfc, int* auxCantidadTotal);
 
 /// @brief
 /// @param pCostoHospedaje
