@@ -142,75 +142,15 @@ void validarCamiseta(int minimo, int maximo){
 }
 
 //CALCULO DE PROMEDIOS POR MERCADO
-float calcularPromedioAfc(int* pCantidadJugadoresAfc){
+
+float calcularPromedio(int* pCantidadJugadores){
 
 	float promedio;
 
-	if (pCantidadJugadoresAfc != NULL){
+	if (pCantidadJugadores != NULL){
 
-		promedio = (float) *pCantidadJugadoresAfc / TAMCONFEDERACIONES;
+		promedio = (float) *pCantidadJugadores / TAMCONFEDERACIONES;
 	}
 
 	return promedio;
 }
-
-float calcularPromedioOfc(int* pCantidadJugadoresOfc){
-
-	float promedio;
-
-	if (pCantidadJugadoresOfc != NULL){
-
-		promedio = (float) *pCantidadJugadoresOfc / TAMCONFEDERACIONES;
-	}
-
-	return promedio;
-}
-
-float calcularPromedioCaf(int* pCantidadJugadoresCaf){
-
-	float promedio;
-
-	if (pCantidadJugadoresCaf != NULL){
-
-		promedio = (float) *pCantidadJugadoresCaf / TAMCONFEDERACIONES;
-	}
-
-	return promedio;
-}
-
-float calcularPromedioConcaf(int* pCantidadJugadoresConcaf){
-
-	float promedio;
-
-	if (pCantidadJugadoresConcaf != NULL){
-
-		promedio = (float) *pCantidadJugadoresConcaf / TAMCONFEDERACIONES;
-	}
-
-	return promedio;
-}
-
-float calcularPromedioConmebol(int* pCantidadConmebol){
-
-	float promedio;
-
-	if (pCantidadConmebol != NULL){
-
-		promedio = (float) *pCantidadConmebol / TAMCONFEDERACIONES;
-	}
-
-	return promedio;
-}
-
-float calcularPromedioUefa(int* pCantidadUefa){
-
-	float promedio;
-
-	if (pCantidadUefa != NULL){
-
-		promedio = (float) *pCantidadUefa / TAMCONFEDERACIONES;
-	}
-
-	return promedio;
-}
-

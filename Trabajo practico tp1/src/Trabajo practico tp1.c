@@ -122,7 +122,7 @@ int main(void) {
 
 				case 2:
 					if(subMenuJugadores(&cantidadArqueros, &cantidadDefensores, &cantidadMediocampistas, &cantidadDelanteros, &banderaOpcionTresB) == 1){
-						subMenuConfederaciones(cantidadCaf, cantidadUefa, cantidadConcaf, cantidadOfc, cantidadConmebol, cantidadCaf, cantidadTotal);
+						subMenuConfederaciones(cantidadCaf, cantidadUefa, cantidadConcaf, cantidadOfc, cantidadConmebol, cantidadAfc, cantidadTotal);
 						if(cantidadArqueros || cantidadDefensores || cantidadMediocampistas || cantidadDelanteros || banderaOpcionTresB > 0){
 							banderaOpcionTresB = 1;
 						}
@@ -132,15 +132,15 @@ int main(void) {
 				case 3:
 					if(banderaOpcionTresA == 1 && banderaOpcionTresB == 1){
 						costoMantenimiento = auxCostoHospedaje + auxCostoComida + auxCostoTransporte;
-						promedioAfc = (float)calcularPromedioAfc(&cantidadAfc);
-						promedioCaf= (float)calcularPromedioCaf(&cantidadCaf);
-						promedioOfc = (float)calcularPromedioOfc(&cantidadOfc);
-						promedioConcacaf= (float)calcularPromedioConcaf(&cantidadConcaf);
-						promedioConmebol = (float)calcularPromedioConmebol(&cantidadConmebol);
-						promedioUefa = (float)calcularPromedioUefa(&cantidadUefa);
-						if(cantidadUefa > cantidadAfc && cantidadUefa > cantidadCaf && cantidadUefa > cantidadConcaf && cantidadUefa > cantidadConmebol && cantidadUefa > cantidadOfc){
+						promedioAfc = (float)calcularPromedio(&cantidadAfc);
+						promedioCaf= (float)calcularPromedio(&cantidadCaf);
+						promedioOfc = (float)calcularPromedio(&cantidadOfc);
+						promedioConcacaf= (float)calcularPromedio(&cantidadConcaf);
+						promedioConmebol = (float)calcularPromedio(&cantidadConmebol);
+						promedioUefa = (float)calcularPromedio(&cantidadUefa);
+						if(cantidadUefa > cantidadAfc || cantidadUefa > cantidadCaf || cantidadUefa > cantidadConcaf || cantidadUefa > cantidadConmebol || cantidadUefa > cantidadOfc){
 							costoMantenimientoAumento = costoMantenimiento * 0.35;
-							costoMantenimientoConAumento += costoMantenimiento * 0.35;
+							costoMantenimientoConAumento += costoMantenimientoAumento;
 						}
 						puts("--------------------------------------");
 						printf("Los calculos se realizaron correctamente\n");
@@ -209,8 +209,6 @@ int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantida
 	int retorno;
 	int opcionLiga;
 
-	auxCantidadAfc = 0;
-
 	retorno = -1;
 
 	printf("\n--------------------------------");
@@ -229,37 +227,31 @@ int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantida
 
 				case 1:
 					auxCantidadAfc++;
-					calcularPromedioAfc(&auxCantidadAfc);
 					retorno = 1;
 				break;
 
 				case 2:
 					auxCantidadCaf++;
-					calcularPromedioCaf(&auxCantidadCaf);
 					retorno = 1;
 				break;
 
 				case 3:
 					auxCantidadConcaf++;
-					calcularPromedioCaf(&auxCantidadConcaf);
 					retorno = 1;
 				break;
 
 				case 4:
 					auxCantidadConmebol++;
-					calcularPromedioCaf(&auxCantidadConmebol);
 					retorno = 1;
 				break;
 
 				case 5:
 					auxCantidadUefa++;
-					calcularPromedioCaf(&auxCantidadUefa);
 					retorno = 1;
 				break;
 
 				case 6:
 					auxCantidadOfc++;
-					calcularPromedioCaf(&auxCantidadOfc);
 					retorno = 1;
 				break;
 

@@ -32,33 +32,8 @@ int subMenuJugadores(int* pCantidadArqueros,int* pCantidadDefensores,int* pCanti
 int subMenuGastos(float* pCostoHospedaje,float* pCostoComida,float* pCostoTransporte);
 
 /// @brief
-/// @param pCantidadJugadoresAfc
+/// @param pCantidadJugadores
 /// @return Devuele promedio calculado
-float calcularPromedioAfc(int* pCantidadJugadoresAfc);
-
-/// @brief
-/// @param pCantidadOfc
-/// @return Devuele promedio calculado
-float calcularPromedioOfc(int* pCantidadOfc);
-
-/// @brief
-/// @param pCantidadCaf
-/// @return Devuele promedio calculado
-float calcularPromedioCaf(int* pCantidadCaf);
-
-/// @brief
-/// @param pCantidadConcaf
-/// @return Devuele promedio calculado
-float calcularPromedioConcaf(int* pCantidadConcaf);
-
-/// @brief
-/// @param pCantidadConmebol
-/// @return Devuele promedio calculado
-float calcularPromedioConmebol(int* pCantidadConmebol);
-
-/// @brief
-/// @param pCantidadUefa
-/// @return Devuele promedio calculado
-float calcularPromedioUefa(int* pCantidadUefa);
+float calcularPromedio(int* pCantidadJugadores);
 
 #endif /* OBTENER_H_ */
