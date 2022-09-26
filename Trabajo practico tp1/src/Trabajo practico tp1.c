@@ -91,7 +91,9 @@ int main(void) {
 
 
 		do{
-			printf("\n=====MENU PRINCIPAL===== \n \n");
+			puts("\n--------------------------------------");
+			printf("==========MENU PRINCIPAL==========");
+			puts("\n--------------------------------------\n");
 			printf("1- Ingresar costos de mantenimiento\n");
 			printf(" -Costo de hospedaje -> $%.2f\n", auxCostoHospedaje);
 			printf(" -Costo de comida -> $%.2f\n", auxCostoComida);
@@ -119,10 +121,7 @@ int main(void) {
 				break;
 
 				case 2:
-					subMenuJugadores(&cantidadArqueros, &cantidadDefensores, &cantidadMediocampistas, &cantidadDelanteros, &banderaOpcionTresB);
-					if(cantidadArqueros > 2 || cantidadDefensores > 8 || cantidadMediocampistas > 8 || cantidadDelanteros > 4){
-						break;
-					}else{
+					if(subMenuJugadores(&cantidadArqueros, &cantidadDefensores, &cantidadMediocampistas, &cantidadDelanteros, &banderaOpcionTresB) == 1){
 						subMenuConfederaciones(cantidadCaf, cantidadUefa, cantidadConcaf, cantidadOfc, cantidadConmebol, cantidadCaf, cantidadTotal);
 						if(cantidadArqueros || cantidadDefensores || cantidadMediocampistas || cantidadDelanteros || banderaOpcionTresB > 0){
 							banderaOpcionTresB = 1;
@@ -133,7 +132,7 @@ int main(void) {
 				case 3:
 					if(banderaOpcionTresA == 1 && banderaOpcionTresB == 1){
 						costoMantenimiento = auxCostoHospedaje + auxCostoComida + auxCostoTransporte;
-						promedioAfc = calcularPromedioAfc(&cantidadAfc);
+						promedioAfc = (float)calcularPromedioAfc(&cantidadAfc);
 						promedioCaf= (float)calcularPromedioCaf(&cantidadCaf);
 						promedioOfc = (float)calcularPromedioOfc(&cantidadOfc);
 						promedioConcacaf= (float)calcularPromedioConcaf(&cantidadConcaf);
@@ -210,6 +209,8 @@ int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantida
 	int retorno;
 	int opcionLiga;
 
+	auxCantidadAfc = 0;
+
 	retorno = -1;
 
 	printf("\n--------------------------------");
@@ -229,7 +230,6 @@ int subMenuConfederaciones(int auxCantidadCaf,int auxCantidadUefa,int auxCantida
 				case 1:
 					auxCantidadAfc++;
 					calcularPromedioAfc(&auxCantidadAfc);
-					printf("%d", auxCantidadAfc);
 					retorno = 1;
 				break;
 
