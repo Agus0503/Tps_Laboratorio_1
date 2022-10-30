@@ -24,6 +24,4 @@ int getString(char cadena[], int longitud);
 
 void obtenerString(char *mensaje,char *palabra);
 
-int esNumerico(char str[]);
-
 #endif /* INPUTS_H_ */

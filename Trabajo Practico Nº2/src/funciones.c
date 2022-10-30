@@ -201,7 +201,7 @@ int informes(sJugdador array[], int size){
 	puts("===========================================================================================================\n");
 	puts("|  ID  |       NOMBRE       |      POSICION      | CAMISETA |   SUELDO   | CONFEDERACION | AÑOS DE CONTRATO|\n");
 	puts("===========================================================================================================\n");
-//	puts("|  %d   |      %s     |     %s      |    %d    |  %.2f  |     %s      | 	%d	|\n", id, nombre, POSICION, camiseta, sueldo, CONFEDERACION, aniosContrato );
+//	printf("|  %d   |      %s     |     %s      |    %d    |  %.2f  |     %s      | 	%d	|\n", id, nombre, POSICION, camiseta, sueldo, CONFEDERACION, aniosContrato );
 	puts("----------------------------------------------------------------------------------------------------------\n");
 	puts("\n");
 

@@ -16,7 +16,6 @@ int main(void){
 	setbuf(stdout,NULL);
 
 	int opcionPrincipal;
-	//char validar[5];
 
 	sJugdador arrayJugadores[SIZE_JUGADORES];
 
