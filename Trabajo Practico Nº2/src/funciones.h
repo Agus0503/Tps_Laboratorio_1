@@ -42,6 +42,7 @@ void InicializarJugador(sJugdador array[], int size);
 int buscarEspacioLibre(sJugdador array[], int size);
 int BuscarPorID(sJugdador array[], int size, int ID);
 sJugdador cargarDatos();
+sConfederacion cargarConfederacion();
 int Alta(sJugdador array[], int size);
 int Baja(sJugdador array[], int size);
 int Modificacion(sJugdador array[], int size);
