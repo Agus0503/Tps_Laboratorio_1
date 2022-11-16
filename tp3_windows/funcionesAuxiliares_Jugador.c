@@ -417,13 +417,15 @@ int guardarArchivoCsv(char* path, LinkedList* pArrayListJugador)
 		if(pFile != NULL)
 		{
 
+			fprintf(pFile, "id,nombreCompleto,edad,posicion,nacionalidad,idSeleccion");
+
 			for(int i = 0; i < ll_len(pArrayListJugador); i++)
 			{
 				auxJugador = (Jugador*) ll_get(pArrayListJugador, i);
 
 				if(auxJugador != 0)
 				{
-					mostrarUnJugador(auxJugador);
+					fprintf(pFile,"\n%d,%s,%d,%s,%s,%d",auxJugador->id,auxJugador->nombreCompleto,auxJugador->edad,auxJugador->posicion,auxJugador->nacionalidad,auxJugador->idSeleccion);
 				}
 
 			}
