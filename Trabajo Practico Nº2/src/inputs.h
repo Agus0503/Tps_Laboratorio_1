@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#define SIZE_CADENA 50
 
 int obtenerNumero(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos);
 
@@ -20,8 +21,12 @@ int obtener_Tipo_Short(short* resultado, char* mensaje, char* mensajeError, int 
 
 char pedirChar(char cadena);
 
-int getString(char cadena[], int longitud);
-
-void obtenerString(char *mensaje,char *palabra);
+int auxCadena(char cadena[], int longitud);
+int validarNombre(char *cadena, int longitud);
+int obtenerCadena(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos);
+int esCadenaValida(char* cadena,int longitud);
+int isNumerica(char* cadena, int limite);
+void minuscula(char cadena[]);
+void mayusculaInicial(char cadena[]);
 
 #endif /* INPUTS_H_ */

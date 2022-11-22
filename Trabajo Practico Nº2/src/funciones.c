@@ -6,47 +6,24 @@
  */
 
 #include "funciones.h"
-#include "inputs.h"
 
 static int obtenerID(void);
-static int obtenerID(void) {
+static int obtenerID(void)
+{
 	static int jugador_idIncremental = 0;
 	return jugador_idIncremental++;
 }
 
-void InicializarJugador(sJugdador array[], int size){
-
-	if (array != NULL && size > 0) {
-		for (int i = 0; i < size; i++) {
-			array[i].isEmpty = LIBRE;
-		}
-	}
-}
-
-int buscarEspacioLibre(sJugdador array[], int size){
-
-	int retorno;
-	retorno = -1;
-
-	if (array != NULL && size > 0) {
-		for (int i = 0; i < size; i++) {
-			if (array[i].isEmpty == LIBRE) {
-				retorno = i;
-				break;
-			}
-		}
-	}
-
-	return retorno;
-}
-
-int BuscarPorID(sJugdador array[], int size, int ID){
+int buscarEspacioLibre(sJugador array[], int size)
+{
 	int retorno = -1;
-	int i;
 
-	if (array != NULL && size > 0) {
-		for (i = 0; i < size; i++) {
-			if (array[i].id == ID && array[i].isEmpty == OCUPADO) {
+	if (array != NULL && size > 0)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (array[i].isEmpty == LIBRE)
+			{
 				retorno = i;
 				break;
 			}
@@ -56,198 +33,442 @@ int BuscarPorID(sJugdador array[], int size, int ID){
 	return retorno;
 }
 
-sJugdador cargarDatos(){
+int BuscarPorID(sJugador array[], int size, int ID)
+{
 
-	sJugdador aux;
-	int retorno;
+	int retorno = -1;
 
-	aux.id = obtenerID();
-
-	obtenerString("\nIngrese nombre del jugador: ", aux.nombre);
-
-	obtenerString("\nIngrese posicion del jugador: ", aux.posicion);
-
-	retorno = obtener_Tipo_Short(&aux.numeroCamiseta, "\nIngrese numero de camiseta: ", "¡Dato invalido!", 1, 99, 0);
-
-	while(retorno == -1){
-		retorno = obtener_Tipo_Short(&aux.numeroCamiseta, "\nIngrese numero de camiseta: ", "¡Dato invalido!", 1, 99, 0);
-	}
-
-	retorno = obtenerNumeroFlotante(&aux.salario, "\nIngrese salario: ", "¡Dato invalido!", 50000, 500000, 2);
-
-	while(retorno == -1){
-		retorno = obtenerNumeroFlotante(&aux.salario, "\nIngrese salario: ", "¡Dato invalido!", 50000, 500000, 2);
-	}
-
-	cargarConfederacion();
-
-	retorno = obtener_Tipo_Short(&aux.aniosContrato, "\nIngrese años de contrato: ", "¡Dato invalido!", 1, 99, 0);
-
-	while(retorno == -1){
-		retorno = obtener_Tipo_Short(&aux.aniosContrato, "\nIngrese años de contrato: ", "¡Dato invalido!", 1, 99, 0);
-	}
-
-	return aux;
-}
-
-sConfederacion cargarConfederacion(){
-
-	sConfederacion aux;
-
-	puts("Seleccione ID de confederacion correspondiente: "
-			"1.UEFA"
-			"2.CONMEBOL"
-			"3.AFC"
-			"4.CAF"
-			"5.CONCAF"
-			"6.OFC");
-
-	obtenerNumero(&aux.id, "INGRESE ID", "INGRESO INCORRECTO!", 1, 6, 0);
-
-	return aux;
-}
-
-int Alta(sJugdador array[], int size){
-
-	sJugdador aux;
-	int retorno;
-	retorno = 0;
-
-	int index = buscarEspacioLibre(array, size);
-
-	if (index != -1) {
-		aux = cargarDatos();
-		aux.id = obtenerID();
-		aux.isEmpty = OCUPADO;
-		array[index] = aux;
-
-		retorno = 1;
-	}
-
-	return retorno;
-}
-
-int Baja(sJugdador array[], int size){
-
-	int retorno = 0;
-	int id;
-	int index;
-	int bandera = 0;
-
-	if (informes(array, size)) {
-		bandera = 1;
-	}
-
-	if (bandera) {
-		obtenerNumero(&id, "Ingrese ID a dar de baja: ", "\n¡El ID ingresado no existe!\n", 1, 1000, 0);
-
-		while (BuscarPorID(array, size, id) == -1) {
-			puts("NO EXISTE ID.");
-
-			obtenerNumero(&id, "Ingrese ID a dar de baja: ", "\n¡El ID ingresado no existe!\n", 1, 1000, 0);
-		}
-
-		index = BuscarPorID(array, size, id);
-
-		array[index].isEmpty = BAJA;
-
-		retorno = 1;
-	}
-
-	return retorno;
-}
-
-
-int Modificacion(sJugdador array[], int size){
-
-	int retorno;
-	int id;
-	int index;
-	int bandera;
-	sJugdador auxiliar;
-	retorno = 0;
-	bandera = 0;
-
-	if (informes(array, size)) {
-		bandera = 1;
-	}
-
-	if (bandera) {
-		obtenerNumero(&id, "Ingrese ID a Modificar: ", "\n¡El ID ingresado no existe!\n", 1, 1000, 0);
-		while (BuscarPorID(array, size, id) == -1) {
-			puts("NO EXISTE ID.");
-			obtenerNumero(&id, "Ingrese ID a Modificar: ", "\n¡El ID ingresado no existe!\n", 1, 1000, 0);
-		}
-
-		index = BuscarPorID(array, size, id);
-
-		array[index] = auxiliar;
-
-		retorno = 1;
-	}
-
-	return retorno;
-}
-
-
-int informes(sJugdador array[], int size){
-
-	int retorno;
-	int cantidad;
-	retorno = 0;
-	cantidad = 0;
-
-	puts("\nLISTADO:");
-	puts("===========================================================================================================\n");
-	puts("|  ID  |       NOMBRE       |      POSICION      | CAMISETA |   SUELDO   | CONFEDERACION | AÑOS DE CONTRATO|\n");
-	puts("===========================================================================================================\n");
-//	printf("|  %d   |      %s     |     %s      |    %d    |  %.2f  |     %s      | 	%d	|\n", id, nombre, POSICION, camiseta, sueldo, CONFEDERACION, aniosContrato );
-	puts("----------------------------------------------------------------------------------------------------------\n");
-	puts("\n");
-
-	if (array != NULL && size > 0) {
-		for (int i = 0; i < size; i++) {
-			if (array[i].isEmpty == OCUPADO) {
-				cantidad++;
+	if (array != NULL && size > 0)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (array[i].id == ID && array[i].isEmpty == OCUPADO)
+			{
+				retorno = i;
+				break;
 			}
 		}
 	}
 
-	if (cantidad > 0) {
-		retorno = 1;
-	}
-
 	return retorno;
 }
 
-int ordenamiento(sJugdador array[], int sizeJugadores,sConfederacion arrayConf[],int sizeConf){
+int verificarAlta(sJugador* array,int size)
+{
+	int retorno = -1;
 
-	int retorno;
-	sJugdador aux;
-	sConfederacion auxConf;
-	retorno = 0;
-
-		if (array != NULL && arrayConf != NULL && sizeConf > 0 && sizeJugadores > 0) {
-				for (int i = 0; i < sizeJugadores - 1; i++) {
-					for (int j = i + 1; j < sizeJugadores; j++) {
-						if (array[i].isEmpty == OCUPADO	&& array[j].isEmpty == OCUPADO) {
-							if (strcmp(arrayConf[i].nombre,arrayConf[j].nombre)>0) {
-								auxConf = arrayConf[i];
-								arrayConf[i] = arrayConf[j];
-								arrayConf[j] = auxConf;
-							}
-
-							if(strcmp(array[i].nombre,array[j].nombre)>0){
-								aux = array[i];
-								array[i] = array[j];
-								array[j] = aux;
-							}
-						}
-					}
-				}
-
+	if(array != NULL && size > 0)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(array[i].isEmpty == OCUPADO)
+			{
 				retorno = 1;
 			}
+		}
+	}
 
 	return retorno;
 }
+
+void mostrarUno(sJugador jugador)
+{
+   printf("\n    %d |  %10s   |   %10s   |  %hd   |  %.2f   |   %d   |   %hd   |", jugador.id, jugador.nombre, jugador.posicion,jugador.numeroCamiseta,jugador.salario,jugador.idConfederacion,jugador.aniosContrato);
+   puts("\n----------------------------------------------------------------------------------------------------------\n");
+}
+
+int mostrarTodos(sJugador* jugador, int size)
+{
+	int retorno = -1;
+
+	if (jugador != NULL && size > 0)
+	{
+	   puts("\nLISTADO:");
+	   puts("===========================================================================================================\n");
+	   puts("|  ID  |       NOMBRE       |      POSICION      | CAMISETA |   SUELDO   | CONFEDERACION | AÑOS DE CONTRATO|\n");
+	   puts("===========================================================================================================\n");
+
+	   for (int i = 0; i < size; i++)
+	   {
+		  if (jugador[i].isEmpty == OCUPADO)
+		  {
+			  mostrarUno(jugador[i]);
+		  }
+	   }
+
+	   retorno = 1;
+	}
+
+	return retorno;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+int validarPosicion(sJugador* auxJugador,char* cadena)
+{
+	int retorno = -1;
+	int posicion;
+
+	fflush(stdin);
+
+	if(auxJugador != NULL && cadena != NULL)
+	{
+		obtenerNumero(&posicion, "\nIngrese posicion: "
+				"\n1.ARQUERO"
+				"\n2.DEFENSOR"
+				"\n3.MEDIOCAMPISTA"
+				"\n4.DELANTERO"
+				"\nPosicion: ", "¡DATO INVALIDO!", 1, 4, 5);
+
+
+		switch(posicion)
+		{
+			case 1:
+				cadena = "ARQUERO";
+				strcpy(auxJugador->posicion,cadena);
+				break;
+
+			case 2:
+				cadena = "DEFENSOR";
+				strcpy(auxJugador->posicion,cadena);
+				break;
+
+			case 3:
+				cadena = "MEDIOCAMPISTA";
+				strcpy(auxJugador->posicion,cadena);
+				break;
+
+			case 4:
+				cadena = "DELANTERO";
+				strcpy(auxJugador->posicion,cadena);
+				break;
+
+		}
+
+		retorno = 1;
+	}
+
+	return retorno;
+}
+
+int alta(sJugador* jugadores, int size)
+{
+	int retorno = -1;
+	char auxCadena[SIZE_CADENA];
+	sJugador auxJugador;
+
+	if((jugadores != NULL && size >= 0))
+	{
+		auxJugador.id = obtenerID();
+		obtenerCadena(auxJugador.nombre, SIZE_CADENA, "\nIngrese nombre del jugador: ", "¡DATO INVALIDO!", 5);
+		validarPosicion(jugadores,auxCadena);
+		obtener_Tipo_Short(&auxJugador.numeroCamiseta, "\nIngrese numero de camiseta: ", "¡DATO INVALIDO!", 1, 99, 5);
+		menuConfederacion();
+		obtenerNumero(&auxJugador.idConfederacion, "Confederacion: ", "¡DATO INVALIDO!", 100, 105, 5);
+		obtenerNumeroFlotante(&auxJugador.salario, "\nIngrese salario: ", "¡DATO INVALIDO!", 75000, 1000000, 5);
+		obtener_Tipo_Short(&auxJugador.aniosContrato, "\nIngrese años de contrato: ", "¡DATO INVALIDO!", 1, 10, 5);
+
+
+		if(cargarDatos(jugadores, size, auxJugador.id, auxJugador.nombre,jugadores->posicion,auxJugador.numeroCamiseta,auxJugador.idConfederacion,
+				auxJugador.salario,auxJugador.aniosContrato) == 1)
+		{
+			retorno = 1;
+		}else{
+			puts("HUBO UN ERROR EN LA CARGA DE DATOS");
+		}
+
+	}
+
+	return retorno;
+}
+
+
+int cargarDatos(sJugador* jugadores, int size, int id, char nombre[],char posicion[],short numeroCamiseta,int idConfederacion,float salario,short aniosContrato)
+{
+
+	int retorno = -1;
+	int index;
+	sJugador auxJugador;
+
+	if(jugadores!=NULL && size >= 0)
+	{
+		index = buscarEspacioLibre(jugadores,size);
+
+		if (index >= 0)
+		{
+			auxJugador.id = id;
+			strcpy(auxJugador.nombre, nombre);
+			strcpy(auxJugador.posicion, posicion);
+			auxJugador.numeroCamiseta = numeroCamiseta;
+			auxJugador.idConfederacion = idConfederacion;
+			auxJugador.salario = salario;
+			auxJugador.aniosContrato = aniosContrato;
+			auxJugador.isEmpty = 1;
+			retorno = 1;
+			jugadores[index]=auxJugador;
+		}
+
+	}
+
+	return retorno;
+}
+
+
+int baja(sJugador* jugador, int size, int id)
+{
+
+	int retorno = -1;
+	int indice = -1;
+
+	ordenarPorId(jugador, size);
+	mostrarTodos(jugador, size);
+	obtenerNumero(&id, "\nIngrese ID a dar de baja: ", "¡DATO INVALIDO!", 0, 3000, 5);
+
+	indice = BuscarPorID(jugador, size, id);
+
+	if(indice != -1)
+	{
+		mostrarUno(jugador[indice]);
+		jugador[indice].isEmpty = LIBRE;
+		retorno = 1;
+	}
+	else{
+		printf("El ID ingresado no existe");
+		system("pause");
+	}
+
+	return retorno;
+}
+
+
+int modificacion(sJugador* array, int size,int id)
+{
+	int retorno = -1;
+	int indice;
+	sJugador aux;
+	int opcion;
+	char auxCadena[SIZE_CADENA];
+
+	ordenarPorId(array, size);
+	mostrarTodos(array, size);
+	obtenerNumero(&id, "\nIngrese ID a modificar: ", "¡DATO INVALIDO!", 0, 3000, 5);
+
+	indice = BuscarPorID(array, size, id);
+
+	if(indice != -1)
+	{
+
+		do{
+
+		puts("\nQue dato desea modificar?"
+				"\n1.Nombre"
+				"\n2.Posicion"
+				"\n3.Numero de Camiseta"
+				"\n4.ID Confederacion"
+				"\n5.Salario"
+				"\n6.Años de Contrato"
+				"\n7.SALIR");
+
+		obtenerNumero(&opcion, "\nIngrese opcion: ", "OPCION INCORRECTA", 1, 7, 5);
+
+			switch(opcion)
+			{
+
+			case 1: /*NOMBRE*/
+				if(obtenerCadena(aux.nombre, SIZE_CADENA, "\nIngrese nuevo nombre: ", "¡DATO INVALIDO!", 5) == 1)
+				{
+					strncpy(array[indice].nombre,aux.nombre,SIZE_CADENA);
+					puts("------- NOMBRE ACTUALIZADO CORRECTAMENTE -------");
+				}
+
+				break;
+
+			case 2: /*POSICION*/
+				if(validarPosicion(&aux, auxCadena) == 1)
+				{
+					strncpy(array[indice].posicion,aux.posicion,SIZE_CADENA);
+					puts("------- POSICION ACTUALIZADA CORRECTAMENTE -------");
+				}
+
+				break;
+
+			case 3: /*NUMERO DE CAMISETA*/
+				if(obtener_Tipo_Short(&aux.numeroCamiseta, "\nIngrese nuevo numero de camiseta: ",  "¡DATO INVALIDO!", 1, 99, 5) == 1)
+				{
+					array[indice].numeroCamiseta = aux.numeroCamiseta;
+					puts("------- NUMERO DE CAMISETA ACTUALIZADA CORRECTAMENTE -------");
+				}
+				break;
+
+			case 4: /*ID CONFEDERACION*/
+				menuConfederacion();
+				if(obtenerNumero(&aux.idConfederacion,"\nIngrese nuevo ID de confederacion: ", "¡DATO INVALIDO!", 100, 105, 5) == 1)
+				{
+					array[indice].idConfederacion = aux.idConfederacion;
+					puts("------- ID DE CONFEDERACION ACTUALIZADO CORRECTAMENTE -------");
+				}
+
+				break;
+
+			case 5: /*SALARIO*/
+				if(obtenerNumeroFlotante(&aux.salario, "\nIngrese nuevo salario: ",  "¡DATO INVALIDO!", 75000, 1000000, 5) == 1)
+				{
+					array[indice].salario = aux.salario;
+					puts("------- SALARIO ACTUALIZADO CORRECTAMENTE -------");
+				}
+				break;
+
+			case 6: /*AÑOS DE CONTRATO*/
+				if(obtener_Tipo_Short(&aux.aniosContrato, "\nIngrese años de contrato: ",  "¡DATO INVALIDO!", 1, 10, 5) == 1)
+				{
+					array[indice].aniosContrato = aux.aniosContrato;
+					puts("------- AÑOS DE CONTRATO ACTUALIZADOS CORRECTAMENTE -------");
+				}
+				break;
+
+			default:
+				puts("\nERROR, SELECCIONE LAS OPCIONES DISPONIBLES");
+				break;
+			}
+
+		}while(opcion != 7);
+
+		retorno = 1;
+	}
+
+	return retorno;
+}
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+int ordenarPorId(sJugador array[], int size)
+{
+	sJugador aux;
+    int retorno = -1;
+    int bandera;
+    int actualSize;
+
+    if(array != NULL && size >= 0)
+    {
+    	actualSize = size - 1;
+
+    	do{
+
+    		bandera = 0;
+
+			for(int i = 0; i < actualSize; i++)
+			{
+				if (array[i].isEmpty == OCUPADO && array[i + 1].isEmpty == OCUPADO)
+				{
+
+					if(array[i].id > array[i + 1].id)
+					{
+						bandera = 1;
+						aux = array[i];
+						array[i] = array[i + 1];
+						array[i + 1] = aux;
+					}
+
+					actualSize--;
+				}
+			}
+
+    	}while(bandera);
+
+    	retorno = 1;
+    }
+
+    return retorno;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+int ordenarPorNombre(sJugador array[], int size)
+{
+	int retorno = -1;
+	int actualSize;
+	int bandera;
+	sJugador auxJug;
+
+	if (array != NULL && size > 0)
+	{
+    	actualSize = size - 1;
+
+    	do{
+
+    		bandera = 0;
+
+			for (int i = 0; i < actualSize; i++)
+			{
+				if (array[i].isEmpty == OCUPADO && array[i + 1].isEmpty == OCUPADO)
+				{
+					if(strcmp(array[i].nombre,array[ i + 1].nombre)>0)
+					{
+						bandera = 1;
+						auxJug = array[i];
+						array[i] = array[i + 1];
+						array[i + 1] = auxJug;
+
+					}
+
+				}
+
+			}
+
+    	}while(bandera);
+    	retorno = 1;
+	}
+
+	return retorno;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+int calcularPromedio_y_total(sJugador array[], int size)
+{
+	int auxSalario = 0;
+	int superaPromedio = 0;
+	float promedio;
+
+	if(array != NULL && size > 0)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(array[i].isEmpty == OCUPADO)
+			{
+				auxSalario += array[i].salario;
+			}
+		}
+	}
+
+	promedio = (float) auxSalario / size;
+
+	printf("\n---------------"
+			"\n|TOTAL: %d|"
+			"\n-------------------", auxSalario);
+	printf("\n|PROMEDIO: %.2f|\n"
+			"-------------------",promedio);
+
+	for(int i = 0; i < size; i++)
+	{
+		if(array[i].isEmpty == OCUPADO)
+		{
+			if(array[i].salario > promedio)
+			{
+				superaPromedio++;
+			}
+		}
+
+	}
+
+	printf("----------------------------------------------"
+		 "\n|La cantidad de jugadores que superan el salario promedio son: %d|\n"
+		 "-----------------------------------------------------------------\n",superaPromedio);
+
+	return promedio;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
