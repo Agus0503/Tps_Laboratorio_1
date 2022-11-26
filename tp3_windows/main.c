@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "LinkedList.h"
 #include "Controller.h"
@@ -8,86 +9,157 @@
 
 int main()
 {
+	inicio:
 	setbuf(stdout,NULL);
 
     int option;
     int elegirOrden;
-    char confederacion_uno[SIZE_CADENA];
+    char confederacion[SIZE_CADENA];
 
     LinkedList* listaJugadores = ll_newLinkedList();
     LinkedList* listaSelecciones = ll_newLinkedList();
 
-    puts("funciona OK");
+    //puts("funciona OK");
 
     do{
-    	obtenerNumero(&option, "1.Cargar archivos"
-    						   "\n2.ALTA"
-							   "\n3.MODIFICACION"
-							   "\n4.BAJA"
-							   "\n5.Listados"
-							   "\n6.Convocar jugadores"
-							   "\n7.Ordenar y listar"
-							   "\n8.Generar archivo Binario"
-							   "\n9.Cargar archivo Binario"
-							   "\n10.Guardar archivo .CSV"
-							   "\n11.SALIR"
-							   "\nIngrese su opcion: ", "\n¡OPCION INCORRECTA!\n\n", 1, 11, 0);
+    	puts("\n =================== MENU PRINCIPAL =================== \n");
+
+
+    	obtenerEnteroRemastered(&option, "\nQue desea realizar?"
+									   "\n1.Cargar archivos"
+									   "\n2.ALTA"
+									   "\n3.MODIFICACION"
+									   "\n4.BAJA"
+									   "\n5.Listados"
+									   "\n6.Convocar jugadores"
+									   "\n7.Ordenar y listar"
+									   "\n8.Generar archivo Binario"
+									   "\n9.Cargar archivo Binario"
+									   "\n10.Guardar archivo .CSV"
+									   "\n11.SALIR"
+									   "\nIngrese su opcion: ", "\n¡OPCION INCORRECTA!\n\n", 1, 11);
 
     	switch(option)
         {
             case 1:
             	controller_cargarJugadoresDesdeTexto("jugadores.csv",listaJugadores);
-            	controller_cargarSeleccionesDesdeTexto("selecciones.csv", listaSelecciones);
+				controller_cargarSeleccionesDesdeTexto("selecciones.csv", listaSelecciones);
+
                 break;
 
             case 2:
-            	if(controller_agregarJugador(listaJugadores))
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
             	{
-            		puts("----------------"
-            			 "\nALTA EXITOSA"
-            			 "\n--------------");
+            		puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+            		break;
             	}
+					if(controller_agregarJugador(listaJugadores) == 1)
+					{
+						puts("\n-----------------------------------------"
+							 "\n ---------- ALTA EXITOSA ---------- "
+							 "\n-----------------------------------------");
+					}
+
             	break;
 
             case 3:
-            	if(controller_editarJugador(listaJugadores) == 1)
-            	{
-            		puts("---------------------"
-            			 "\nMODIFICACION EXITOSA"
-            			 "\n---------------------");
-            	}
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
+				if(controller_editarJugador(listaJugadores) == 1)
+				{
+					puts("\n-----------------------------------------"
+						 "\n ----- MODIFICACION EXITOSA -----"
+						 "\n-----------------------------------------");
+				}
+
             	break;
 
             case 4:
-            	if(controller_removerJugador(listaJugadores))
-            	{
-            		puts("---------------"
-            			 "\nBAJA EXITOSA"
-            			 "\n--------------");
-            	}
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
+            	if(controller_removerJugador(listaJugadores) == 1)
+				{
+					puts("\n-----------------------------------------"
+						 "\n ---------- BAJA EXITOSA ---------- "
+						 "\n-----------------------------------------");
+				}
+
 				break;
 
             case 5:
-            	puts("-----------TODOS-----------");
-            	controller_listarJugadores(listaJugadores);
-            	puts("-----------SELECCIONES---------");
-            	controller_listarSelecciones(listaSelecciones);
-            	puts("-----------CONVOCADOS---------");
-        		controller_listarJugadoresConvocados(listaJugadores);
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
+            	do{
+
+            		obtenerNumero(&option, "\nQue lista desea ver?"
+            				"\n1.TODOS LOS JUGADORES"
+            				"\n2.SELECCIONES"
+            				"\n3.CONVOCADOS"
+            				"\n4.VOLVER AL INICIO"
+            				"\nIngrese opcion: ", "La opcion ingresada es incorrecta", 1, 4, 5);
+
+            		switch(option)
+            		{
+
+						case 1:
+							controller_listarJugadores(listaJugadores);
+							break;
+
+						case 2:
+							controller_listarSelecciones(listaSelecciones);
+							break;
+
+
+						case 3:
+							if(controller_listarJugadoresConvocados(listaJugadores) == -1)
+							{
+								puts("\n NO HAY JUGADORES CONVOCADOS PARA LISTAR");
+							}
+							break;
+            		}
+
+
+            	}while(option != 4);
             	break;
 
             case 6:
-            	/*CONVOVAR JUGADORES*/
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
             	do{
             	obtenerNumero(&option, "\nQUE DESEA REALIZAR?"
             						   "\n1.CONVOCAR"
             						   "\n2.DESCONVOCAR"
-            						   "\n3.CANCELAR"
+            						   "\n3.VOLVER AL INICIO"
             						   "\nIngrese opcion: ", "DATO INVALIDO", 1, 3, 5);
             		switch(option)
             		{
             			case 1:
-                        	convocarJugador(listaJugadores, listaSelecciones);
+                        	if(convocarJugador(listaJugadores, listaSelecciones) == 1)
+							{
+                        		puts("\n ¡El jugador fue convocado correctamente!");
+
+							}
             				break;
 
             			case 2:
@@ -102,25 +174,37 @@ int main()
 
             	break;
 
-            case 7:
-            	/*ORDEN Y LISTAS*/
+            case 7:/*ORDEN Y LISTAS*/
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
 
             	do{
             	obtenerNumero(&elegirOrden, "\nQue desea ordenar?"
-            			"\n1.Jugadores"
-            			"\n2.Selecciones"
-            			"\n3.Cancelar"
-            			"\nOpcion: ", "La opcion ingresada es incorrecta", 1, 3, 4);
+											"\n1.Jugadores"
+											"\n2.Selecciones"
+											"\n3.Volver al inicio"
+											"\nOpcion: ", "La opcion ingresada es incorrecta", 1, 3, 4);
 
             	switch(elegirOrden)
             	{
 
 					case 1:
-						controller_ordenarJugadores(listaJugadores);
+						if(controller_ordenarJugadores(listaJugadores) == 1)
+						{
+							puts("\n---------- La lista fue ordenada correctamente! ----------");
+						}
+
 						break;
 
 					case 2:
-						controller_ordenarSelecciones(listaSelecciones);
+						if(controller_ordenarSelecciones(listaSelecciones) == 1)
+						{
+							puts("\n---------- La lista fue ordenada correctamente! ----------");
+						}
 						break;
 
 					case 3:
@@ -131,49 +215,58 @@ int main()
             	}while(elegirOrden != 3);
             	break;
 
-            case 8:
+            case 8: /*GENERAR ARCHIVO BINARIO*/
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
             	do{
-            		obtenerNumero(&option, "\nQue desea listar?"
+            		obtenerEnteroRemastered(&option, "\nQue confederacion desea guardar?"
 											"\n1.UEFA"
 											"\n2.CONMEBOL"
 											"\n3.AFC"
 											"\n4.CAF"
 											"\n5.CONCACAF"
 											"\n6.SALIR"
-											"\nOpcion: ", "La opcion ingresada es incorrecta", 1, 6, 4);
+											"\nOpcion: ", "La opcion ingresada es incorrecta", 1, 6);
 
             		switch(option)
             		{
 						case 1:
-							strcpy(confederacion_uno,"UEFA");
+							strcpy(confederacion,"UEFA");
 							break;
 
 						case 2:
-							strcpy(confederacion_uno,"CONMEBOL");
+							strcpy(confederacion,"CONMEBOL");
 							break;
 
 						case 3:
-							strcpy(confederacion_uno,"AFC");
+							strcpy(confederacion,"AFC");
 							break;
 
 						case 4:
-							strcpy(confederacion_uno,"CAF");
+							strcpy(confederacion,"CAF");
 							break;
 
 						case 5:
-							strcpy(confederacion_uno,"CONCAF");
+							strcpy(confederacion,"CONCAF");
 							break;
 
 						case 6:
-							puts("NOS RE VIMOS EN NARNIA");
+							puts("\nRegresando..");
 							break;
             		}
 
-					if(cargarConvocados(confederacion_uno, listaJugadores, listaSelecciones)==1)
+					if(cargarConvocados(confederacion, listaJugadores, listaSelecciones) == 1)
 					{
 						puts("---------------------------------"
 							 "\nARCHIVO CARGADO CORRECTAMENTE"
 							 "\n-------------------------------");
+					}else{
+						puts("\n ----- NO HAY JUGADORES DE ESTA CONFEDERACION PARA CARGAR -----");
 					}
 
             	}while(option != 6);
@@ -181,16 +274,52 @@ int main()
             	break;
 
             case 9:
+
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
             	imprimirDatosCargadosEnBinario("dataPrint.bin");
             	break;
 
             case 10:
-            	guardarArchivoCsv("jugadores.csv", listaJugadores);
+            	if(ll_isEmpty(listaJugadores) == 1 && ll_isEmpty(listaSelecciones) == 1)
+				{
+					puts("\nERROR, La lista esta vacia!, Asegurese de cargar los archivos primero");
+					break;
+				}
+
+            	if(controller_guardarJugadoresModoTexto("jugadores.csv", listaJugadores) == 1 && controller_guardarSeleccionesModoTexto("selecciones.csv", listaSelecciones) == 1)
+            	{
+            		puts("\n****Datos guardados correctamente****");
+            	}
+
             	break;
 
             case 11:
-            	puts("Adios..");
+
+				puts("\n ----- ALERTA! ----- "
+					"\nEs posible que no se hayan registrado cambios, Desea salir de todas formas?");
+
+				obtenerEnteroRemastered(&option, "\n1.Si"
+									   "\n2.No"
+									   "\nIngrese una opcion: ", "\nLa opcion ingresada es incorrecta", 1, 2);
+
+				if(option == 1)
+				{
+					option = 11;
+				}
+					puts("Adios..");
+
             	break;
+
+
+            default:
+            	goto inicio;
+				break;
+
         }
 
     }while(option != 11);

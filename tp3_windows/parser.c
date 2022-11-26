@@ -11,12 +11,12 @@
 int parser_JugadorFromText(FILE* pFile , LinkedList* pArrayListJugador)
 {
 	int retorno = -1;
-	char id[10];
-	char nombreCompleto[100];
-	char edad[10];
-	char posicion[30];
-	char nacionalidad[30];
-	char idSeleccion[10];
+	char id[SIZE_CADENA];
+	char nombreCompleto[SIZE_CADENA];
+	char edad[SIZE_CADENA];
+	char posicion[SIZE_CADENA];
+	char nacionalidad[SIZE_CADENA];
+	char idSeleccion[SIZE_CADENA];
 	Jugador* unJugador;
 
 	if(pFile != NULL)

@@ -20,9 +20,13 @@ int controller_cargarJugadoresDesdeTexto(char* path , LinkedList* pArrayListJuga
 	{
 		if(parser_JugadorFromText(pFile, pArrayListJugador) == 1)
 		{
-			puts("LISTA DE JUGADORES CARGADA CORRECTAMENTE");
+			puts("\n-----------------------------------------"
+				"\nLISTA DE JUGADORES CARGADA CORRECTAMENTE"
+				"\n-----------------------------------------");
 		}else{
-			puts("ERROR EN LA CARGA DE LA LISTA");
+			puts("\n-----------------------------------------"
+				"\nERROR EN LA CARGA DE LA LISTA"
+				"\n-----------------------------------------");
 			retorno = -1;
 		}
 	}
@@ -49,7 +53,9 @@ int controller_cargarJugadoresDesdeBinario(char* path , LinkedList* pArrayListJu
 	{
 		if(parser_JugadorFromBinary(pFile, pArrayListJugador) == 1)
 		{
-			puts("LISTA DE JUGADORES CARGADA CORRECTAMENTE");
+			puts("\n-----------------------------------------"
+				 "\nLISTA DE JUGADORES CARGADA CORRECTAMENTE"
+				 "\n-----------------------------------------");
 		}else{
 			puts("ERROR EN LA CARGA DE LA LISTA");
 			retorno = -1;
@@ -77,7 +83,7 @@ int controller_agregarJugador(LinkedList* pArrayListJugador)
 
 	auxJugador = jug_new();
 
-	int id = 370;
+	int id = 371;
 	char nombreCompleto[SIZE_CADENA];
 	int edad;
 	char posicion[SIZE_CADENA];
@@ -87,11 +93,14 @@ int controller_agregarJugador(LinkedList* pArrayListJugador)
 	if(pArrayListJugador != NULL)
 	{
 		obtenerID(&id);
-		obtenerCadena(nombreCompleto,SIZE_CADENA,"\nIngrese nombre: ", "\nEl dato ingesado es incorrecto", 3);
+		puts("\n -*-*-* ALTA DE JUGADOR -*-*-* \n");
+		obtenerCadena(nombreCompleto,SIZE_CADENA,"\nIngrese nombre: ", "\nEl dato ingesado es incorrecto", 50);
 		mayusculaInicial(nombreCompleto);
-		obtenerNumero(&edad, "\nIngrese edad: ", "\nEl dato ingresado es incorrecto", 20, 37,3);
-		obtenerCadena(posicion, SIZE_CADENA, "\nIngrese posicion: ", "\nEl dato ingresado es incorrecto", 3);
-		obtenerCadena(nacionalidad, SIZE_CADENA, "\nIngrese nacionalidad: ", "\nEl dato ingresado es incorrecto", 3);
+		obtenerNumero(&edad, "\nIngrese edad: ", "\nEl dato ingresado es incorrecto", 19, 38,3);
+		validarPosicion(auxJugador, posicion);
+		mayusculaInicial(posicion);
+		validarNacionalidad(auxJugador, nacionalidad);
+		mayusculaInicial(nacionalidad);
 
 		if(auxJugador != NULL)
 		{
@@ -127,17 +136,14 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
 	int edad;
 	char posicion[SIZE_CADENA];
 	char nacionalidad[SIZE_CADENA];
-	int idSeleccion;
 	int index;
 	int opcion;
-
 
 	if (pArrayListJugador != NULL)
 	{
 		obtenerID(&maxID);
 		controller_listarJugadores(pArrayListJugador);
-		printf("Seleccione entre [1-%d]\n",(maxID));
-		obtenerNumero(&id, "Ingrese el ID a modificar: ","  ID incorrecto.\n", 1, maxID, 5);
+		obtenerNumero(&id, "Ingrese el ID a modificar: ","  ID incorrecto.\n", 1, maxID, 50);
 
 		index = buscarPorID(pArrayListJugador, id);
 
@@ -147,6 +153,8 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
 
 		} else {
 			auxJugador = ll_get(pArrayListJugador, index);
+
+			puts("\nUsted selecciono el siguiente jugador para modificar: \n");
 			mostrarUnJugador(auxJugador);
 
 			do{
@@ -155,9 +163,8 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
 						"\n2.Edad"
 						"\n3.Posicion"
 						"\n4.Nacionalidad"
-						"\n5.ID de Seleccion"
-						"\n6.Salir"
-						"\nIngrese opcion: ", "¡Dato Incorrecto!", 1, 6, 0);
+						"\n5.Salir"
+						"\nIngrese opcion: ", "¡Dato Incorrecto!", 1, 5, 50);
 
 				switch (opcion)
 				{
@@ -174,7 +181,7 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
 
 				case 2: /*EDAD*/
 					mostrarUnJugador(auxJugador);
-					if(obtenerNumero(&edad,"Ingrese nueva edad: ","Edad incorrecta.\n", 18, 37, 5) == 1)
+					if(obtenerEnteroRemastered(&edad,"Ingrese nueva edad: ","Edad incorrecta.\n", 18, 37) == 1)
 					{
 						jug_setEdad(auxJugador, edad);
 						puts("Edad actualizada correctamente \n");
@@ -185,43 +192,38 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
 
 				case 3:/*POSICION*/
 					mostrarUnJugador(auxJugador);
-					if(obtenerCadena(posicion, sizeof(posicion),"\nIngrese nueva posicion: ","\nDato incorrecto\n", 5) == 1)
+					if(validarPosicion(auxJugador, posicion) == 1)
 					{
-						mayusculaInicial(posicion);
+						jug_getPosicion(auxJugador, posicion);
 						jug_setPosicion(auxJugador, posicion);
-						puts(" Posicion actualizada correctamente\n");
+						puts("\n ---------- Posicion actualizada correctamente ---------- \n");
 						retorno = 1;
 					}
+
 					break;
 
 				case 4:/*NACIONALIDAD*/
 					mostrarUnJugador(auxJugador);
-					if(obtenerCadena(nacionalidad, sizeof(nacionalidad),"\nIngrese nueva nacionalidad: ","\nDato incorrecto\n", 5) == 1)
+					if(validarNacionalidad(auxJugador, nacionalidad) == 1)
 					{
-						mayusculaInicial(nacionalidad);
+						jug_getNacionalidad(auxJugador, nacionalidad);
 						jug_setNacionalidad(auxJugador, nacionalidad);
-						puts("Nacionalidad actualizada correctamente\n");
+						puts("\n ---------- Nacionalidad actualizada correctamente ---------- \n");
 						retorno = 1;
 					}
+
 					break;
 
-				case 5:/*ID SELECCION*/
-					mostrarUnJugador(auxJugador);
-					if(obtenerNumero(&idSeleccion,"\nIngreses nuevo id de seleccion: ","ID incorrecto\n", 0, maxID, 5)){
-						jug_setIdSeleccion(auxJugador, idSeleccion);
-						printf("ID de seleccion actualizado correctamente\n");
-						retorno = 1;
-					}
-					break;
-
-				case 6:
+				case 5:
 					printf("\n saliendo..\n");
-					retorno = 0;
+					opcion = 6;
 					break;
+
 
 				default:
 					printf("Opcion invalida\n");
 				}
+
 			} while (opcion != 6);
 		}
 	}
@@ -253,7 +255,7 @@ int controller_removerJugador(LinkedList* pArrayListJugador)
 	{
 		controller_listarJugadores(pArrayListJugador);
 
-		obtenerNumero(&id, "\nIngrese ID a dar de baja\n","\nID incorrecto ", 1, maxID, 5);
+		obtenerEnteroRemastered(&id, "\nIngrese ID a dar de baja\n","\nID incorrecto ", 1, maxID);
 
 		index = buscarPorID(pArrayListJugador, id);
 
@@ -262,11 +264,18 @@ int controller_removerJugador(LinkedList* pArrayListJugador)
 		jug_getId(auxJugador, &ID_obtenido);
 
 
-			obtenerNumero(&opcion,"\n\n Dar de baja?"
-					"\n    [1] Dar de baja."
-					"\n    [2] Cancelar."
-					"\n    Ingrese opcion: ",
-					"     Error ",1,2,3);
+		puts("\nUsted selecciono el siguiente jugador para dar de baja: ");
+		mostrarUnJugador(auxJugador);
+
+		if(auxJugador->idSeleccion > 0)
+		{
+			puts("\n ALERTA!, el jugador seleccionado esta convocado ");
+		}
+		obtenerEnteroRemastered(&opcion,"\n\n Dar de baja?"
+						"\n    1.Si"
+						"\n    2.No,volver al inicio"
+						"\n    Ingrese opcion: ",
+						"     Error ",1,2);
 
 			switch (opcion)
 			{
@@ -274,6 +283,7 @@ int controller_removerJugador(LinkedList* pArrayListJugador)
 			case 1:
 				ll_remove(pArrayListJugador, index);
 				jug_delete(auxJugador);
+				decrementarID(id);
 				retorno = 1;
 				break;
 
@@ -342,23 +352,60 @@ int controller_ordenarJugadores(LinkedList* pArrayListJugador)
 		{
 
 		case 1: /* NOMBRE */
-				printf("\nOrdenando Lista..\n");
-				ll_sort(pArrayListJugador, jug_ordenarPorNombre, 1);
-				controller_listarJugadores(pArrayListJugador);
+			obtenerEnteroRemastered(&opcion, "\nElija tipo de orden"
+						"\n1.Ascendente"
+						"\n2.Descendente"
+						"\nIngrese opcion: ", "Opcion incorrecta", 1, 2);
+
+				if(opcion == 1)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorNombreAsc, 1);
+				} else if(opcion == 2)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorNombreDesc, 1);
+				}
+
 				retorno = 1;
 				break;
 
 			case 2: /* EDAD */
-				printf("\nOrdenando Lista..\n");
-				ll_sort(pArrayListJugador, jug_ordenarPorEdad, 1);
-				controller_listarJugadores(pArrayListJugador);
+				obtenerEnteroRemastered(&opcion, "\nElija tipo de orden"
+										"\n1.Ascendente"
+										"\n2.Descendente"
+										"\nIngrese opcion: ", "Opcion incorrecta", 1, 2);
+
+				if(opcion == 1)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorEdadAsc, 1);
+				} else if(opcion == 2)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorEdadDesc, 1);
+				}
+
 				retorno = 1;
 				break;
 
 			case 3: /* NACIONALIDAD */
-				printf("\nOrdenando Lista..\n");
-				ll_sort(pArrayListJugador, jug_ordenarPorNacionalidad, 1);
-				controller_listarJugadores(pArrayListJugador);
+				obtenerNumero(&opcion, "\n----------------------"
+										"\n|Elija tipo de orden|"
+										"\n|1.Ascendente       |"
+										"\n|2.Descendente      |"
+										"\n----------------------"
+										"\nIngrese opcion: ", "Opcion incorrecta", 1, 2, 50);
+
+				if(opcion == 1)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorNacionalidadAsc, 1);
+				} else if(opcion == 2)
+				{
+					printf("\nOrdenando Lista..\n");
+					ll_sort(pArrayListJugador, jug_ordenarPorNacionalidadDesc, 1);
+				}
 				retorno = 1;
 				break;
 
@@ -371,6 +418,8 @@ int controller_ordenarJugadores(LinkedList* pArrayListJugador)
 				printf("\nError\n");
 				break;
 			}
+
+			controller_listarJugadores(pArrayListJugador);
 
 		}
 
@@ -389,13 +438,12 @@ int controller_guardarJugadoresModoTexto(char* path , LinkedList* pArrayListJuga
    int retorno = -1;
    FILE* pFile = fopen(path,"w");
 
-	if(pFile !=NULL && controller_cargarJugadoresDesdeTexto(path,pArrayListJugador))
+	if(pFile !=NULL && jug_guardarModoTextoCsv(pFile, pArrayListJugador) == 1)
 	{
 		retorno = 1;
 	}
 
 	fclose(pFile);
-	ll_clear(pArrayListJugador);
 
     return retorno;
 }
@@ -410,6 +458,7 @@ int controller_guardarJugadoresModoTexto(char* path , LinkedList* pArrayListJuga
 int controller_guardarJugadoresModoBinario(char* path , LinkedList* pArrayListJugador)
 {
 	int retorno = -1;
+	int size;
 	FILE* pFile;
 	Jugador* auxJugador;
 
@@ -417,14 +466,14 @@ int controller_guardarJugadoresModoBinario(char* path , LinkedList* pArrayListJu
 	{
 		pFile = fopen(path,"wb");
 
-		for (int i = 0; i < ll_len(pArrayListJugador); i++)
+		size = ll_len(pArrayListJugador);
+		for (int i = 0; i < size; i++)
 		{
 			auxJugador = (Jugador*) ll_get(pArrayListJugador, i);
 			fwrite(auxJugador, sizeof(Jugador), 1, pFile);
 		}
 
 		fclose(pFile);
-		ll_clear(pArrayListJugador);
 		retorno = 1;
 	}
 
@@ -449,7 +498,9 @@ int controller_cargarSeleccionesDesdeTexto(char* path , LinkedList* pArrayListSe
 	{
 		if(parser_SeleccionFromText(pFile, pArrayListSeleccion) == 1)
 		{
-			puts("LISTA DE SELECCIONES CARGADA CORRECTAMENTE");
+			puts("\n--------------------------------------------"
+				 "\nLISTA DE SELECCIONES CARGADA CORRECTAMENTE"
+				 "\n--------------------------------------------");
 		}else{
 			puts("ERROR EN LA CARGA DE LA LISTA");
 			retorno = -1;
@@ -482,8 +533,7 @@ int controller_editarSeleccion(LinkedList* pArrayListSeleccion)
 	{
 		obtenerID(&id);
 		controller_listarSelecciones(pArrayListSeleccion);
-		printf("Selecciones entre [1-%d]\n",(id-1));
-		obtenerNumero(&id, "Ingrese el ID a modificar: ","ID incorrecto, por favor reingrese.\n", 0, (id-1), 5);
+		obtenerNumero(&id, "Ingrese el ID a modificar: ","ID incorrecto, por favor reingrese.\n", 0, (id-1), 50);
 
 		index = ll_indexOf(pArrayListSeleccion, &id);
 
@@ -497,17 +547,17 @@ int controller_editarSeleccion(LinkedList* pArrayListSeleccion)
 
 			do {
 
-				obtenerNumero(&opcion, "Que dato desea modificar?"
+				obtenerEnteroRemastered(&opcion, "Que dato desea modificar?"
 						"\n1.ID"
 						"\n2.Pais"
 						"\n3.Confederacion"
-						"\n4.Cancelar", "¡Dato Incorrecto!", 1, 4, 0);
+						"\n4.Cancelar", "¡Dato Incorrecto!", 1, 4);
 
 				switch (opcion)
 				{
 				case 1: /*ID*/
 					mostrarUnaSeleccion(auxSeleccion);
-					if(obtenerNumero(&id,"\nIngrese nuevo id: ","ID incorrecto, reingrese.\n", 0, id, 5))
+					if(obtenerEnteroRemastered(&id,"\nIngrese nuevo id: ","ID incorrecto, reingrese.\n", 0, id))
 					{
 						selec_getId(auxSeleccion, &id);
 						printf(" ID actualizado correctamente!\n");
@@ -522,7 +572,7 @@ int controller_editarSeleccion(LinkedList* pArrayListSeleccion)
 					{
 						mayusculaInicial(pais);
 						selec_getPais(auxSeleccion, pais);
-						puts("Nombre actualizado correctamente!\n");
+						puts("\nNombre actualizado correctamente!\n");
 						retorno = 1;
 					}
 					break;
@@ -533,7 +583,7 @@ int controller_editarSeleccion(LinkedList* pArrayListSeleccion)
 					{
 						mayusculaInicial(confederacion);
 						selec_getConfederacion(auxSeleccion, confederacion);
-						puts("Confederacion actualizada correctamente!\n");
+						puts("\nConfederacion actualizada correctamente!\n");
 						retorno = 1;
 					}
 					break;
@@ -569,12 +619,14 @@ int controller_listarSelecciones(LinkedList* pArrayListSeleccion)
 	char pais[SIZE_CADENA];
 	char confederacion[SIZE_CADENA];
 	int convocados;
+	int size;
 
 	if (pArrayListSeleccion != NULL)
 	{
 		retorno = 1;
 
-		for (int i = 0; i < ll_len(pArrayListSeleccion); i++)
+		size = ll_len(pArrayListSeleccion);
+		for (int i = 0; i < size; i++)
 		{
 			auxSeleccion = ll_get(pArrayListSeleccion, i);
 			selec_getId(auxSeleccion, &id);
@@ -600,10 +652,28 @@ int controller_listarSelecciones(LinkedList* pArrayListSeleccion)
 int controller_ordenarSelecciones(LinkedList* pArrayListSeleccion)
 {
 	int retorno = -1;
+	int opcion;
+	obtenerNumero(&opcion, "\n----------------------"
+							"\n|Elija tipo de orden |"
+							"\n|1.Ascendente        |"
+							"\n|2.Descendente       |"
+							"\n----------------------"
+							"\nIngrese opcion: ", "Opcion incorrecta", 1, 2, 50);
 
-	ll_sort(pArrayListSeleccion, ordenarSelecciones, 1);
+	if(opcion == 1)
+	{
+		printf("\nOrdenando Lista..\n");
+		ll_sort(pArrayListSeleccion, ordenarSeleccionesAsc, 1);
+	} else if(opcion == 2)
+	{
+		printf("\nOrdenando Lista..\n");
+		ll_sort(pArrayListSeleccion, ordenarSeleccionesDesc, 1);
+	}
 
-	controller_listarSelecciones(pArrayListSeleccion);
+	if(controller_listarSelecciones(pArrayListSeleccion) == 1)
+	{
+		retorno = 1;
+	}
 
     return retorno;
 }
@@ -620,13 +690,12 @@ int controller_guardarSeleccionesModoTexto(char* path , LinkedList* pArrayListSe
 	int retorno = -1;
     FILE* pFile = fopen(path,"w");
 
-	if(pFile != NULL && controller_cargarSeleccionesDesdeTexto(path,pArrayListSeleccion))
+	if(pFile != NULL && selec_guardarModoTextoCsv(pFile, pArrayListSeleccion) == 1)
 	{
 		retorno = 1;
 	}
 
 	fclose(pFile);
-	ll_clear(pArrayListSeleccion);
 
     return retorno;
 }

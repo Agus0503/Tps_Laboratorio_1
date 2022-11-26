@@ -6,11 +6,11 @@
  */
 
 #include "inputs.h"
-#include "Jugador.h"
 
 //OBTENER NUMERO ENTERO ========================================================================================
-int obtenerNumero(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos){
 
+int obtenerNumero(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos)
+{
 	int bufferInt;
 	int retorno = -1;
 
@@ -134,15 +134,18 @@ int validarNombre(char *cadena, int longitud)
 {
 	int retorno = 1;
 
-	if (cadena != NULL && longitud > 0) {
-		for (int i = 0; cadena[i] != '\0' && i < longitud; i++) {
-			if ((cadena[i] < 'A' || cadena[i] > 'Z')
-					&& (cadena[i] < 'a' || cadena[i] > 'z')) {
+	if (cadena != NULL && longitud > 0)
+	{
+		for (int i = 0; cadena[i] != '\0' && i < longitud; i++)
+		{
+			if ((cadena[i] < 'A' || cadena[i] > 'Z') && (cadena[i] < 'a' || cadena[i] > 'z') && cadena[i] != ' ')
+			{
 				retorno = 0;
 				break;
 			}
 		}
 	}
+
 	return retorno;
 }
 
@@ -253,6 +256,43 @@ int isNumerica(char* cadena, int limite)
  }
 
   /*---------------------------------------------------------------------------------------------------------------------*/
+
+int obtenerEnteroRemastered(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo)
+{
+	int retorno = -1;
+	int numero;
+	char buffer[4096];
+
+	if(resultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo)
+	{
+		do{
+
+			printf("%s",mensaje);
+			scanf("%s",buffer);
+
+			if(isNumerica(buffer, maximo))
+			{
+				numero = atoi(buffer);
+
+				if(numero >= minimo && numero <= maximo)
+				{
+					*resultado = numero;
+					retorno = 1;
+				}else{
+					printf("%s", mensajeError);
+				}
+
+			}else{
+				printf("%s", mensajeError);
+			}
+
+		}while(retorno == -1);
+	}
+
+	return retorno;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------*/
 
 void minuscula(char cadena[])
 {

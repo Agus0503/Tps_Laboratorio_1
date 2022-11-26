@@ -15,10 +15,10 @@
 #include "Jugador.h"
 #include "LinkedList.h"
 
+int obtenerEnteroRemastered(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo);
 int obtenerNumero(int* resultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos);
 int obtenerNumeroFlotante(float* resultado, char* mensaje, char* mensajeError, float minimo, float maximo, int reintentos);
 int obtener_Tipo_Short(short* resultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos);
-//void obtenerString(char *mensaje,char *palabra);
 char pedirChar(char cadena);
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 int obtenerString(char cadena[], int longitud);

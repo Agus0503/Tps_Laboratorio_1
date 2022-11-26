@@ -13,9 +13,16 @@
 #include "parser.h"
 #include "inputs.h"
 
+/*-------------------------------------------------------------------------------------*/
 int selec_obtenerDatos(Seleccion* this,int* id,char* pais,char* confederacion,int* convocados);
+/*-------------------------------------------------------------------------------------*/
 int mostrarUnaSeleccion(Seleccion *seleccion);
+/*-------------------------------------------------------------------------------------*/
 int selec_buscarPorID(LinkedList* pArrayList, int id);
-int ordenarSelecciones(void* unaSeleccion,	void* otraSeleccion);
+/*-------------------------------------------------------------------------------------*/
+int ordenarSeleccionesAsc(void* unaSeleccion,	void* otraSeleccion);
+int ordenarSeleccionesDesc(void* unaSeleccion,	void* otraSeleccion);
+/*-------------------------------------------------------------------------------------*/
+int selec_guardarModoTextoCsv(FILE* pFile, LinkedList* pArrayList);
 
 #endif /* FUNCIONESAUXILIARES_SELECCION_H_ */
