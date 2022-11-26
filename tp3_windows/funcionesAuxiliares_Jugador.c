@@ -732,33 +732,7 @@ int jug_obtenerDatos(Jugador* this,int* id,char* nombreCompleto,int* edad,char* 
 	return retorno;
 }
 
-int imprimirDatosCargadosEnBinario(char* path)
-{
-	int retorno = -1;
-	Jugador auxJugador;
-	FILE* pFile;
 
-	pFile = fopen(path,"rb");
-
-	if(pFile != NULL)
-	{
-		while(!feof(pFile))
-		{
-			fread(&auxJugador,sizeof(Jugador),1,pFile);
-
-			if(feof(pFile))
-			{
-				break;
-			}
-			mostrarUnJugador(&auxJugador);
-			retorno = 1;
-		}
-	}
-
-	fclose(pFile);
-
-	return retorno;
-}
 
 int jug_guardarModoTextoCsv(FILE* pFile, LinkedList* pArrayList)
 {

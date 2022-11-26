@@ -51,5 +51,4 @@ int parser_jugadorABinario(FILE* pFile,Jugador* auxJugador);
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 int jug_guardarModoTextoCsv(FILE* pFile, LinkedList* pArrayList);
 /*-------------------------------------------------------------------------------------------------------------------------------*/
-int imprimirDatosCargadosEnBinario(char* path);
 #endif /* FUNCIONESAUXILIARES_JUGADOR_H_ */

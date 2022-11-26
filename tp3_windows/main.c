@@ -281,7 +281,10 @@ int main()
 					break;
 				}
 
-            	imprimirDatosCargadosEnBinario("dataPrint.bin");
+            	if(controller_guardarJugadoresModoBinario("data.bin", listaJugadores) == 1)
+            	{
+            		puts("\nLos datos en binario se cargaron correctamente!");
+            	}
             	break;
 
             case 10:
